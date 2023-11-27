@@ -1,0 +1,6 @@
+# json packages folder
+node_modules/
+
+
+# folders with other bits
+spare/
