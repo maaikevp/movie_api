@@ -11,8 +11,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const http = require('http');
 
 
-//  Running nodemon - change .js file name in package.json under "scripts> dev nodemon"  to the the file you're going to run
+//  Running nodemon - change .js file name in package.json under scripts> dev nodemon 
 //  npm run dev 
+
+// CREATE SERVER 
+
+// http.createServer((request, response) => {
+//   response.writeHead(200, {'Content-Type': 'text/plain'});
+//   response.end('Hello Node!\n');
+// }).listen(8080);
+
+// console.log('My first Node test server is running on Port 8080.');
 
 
 let movies = [
@@ -345,7 +354,107 @@ app.delete('/users/:id', (req, res) => {
 
 
 
+
+
+// let movies = [
+//     {
+//       "title": "starwars",
+//       "description": 
+//         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//       "Genre": { "Name": "drama", "description": "dramatic" },
+//       "director": {
+//         "name": "Director1",
+//         "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//         "born": "1940",
+//         "death": "",
+//       },
+//       "img": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Foriginalvintagemovieposters.com%2Fwp-content%2Fuploads%2F2018%2F06%2FStar-Wars-5672-768x1162.jpg&f=1&nofb=1&ipt=d191eb7a7592ede00a4efb69d08105b59832ac04e24f4d6e8eab7df59bc5537b&ipo=images",
+//       "feature": "true"
+//     },
+//     {
+//       "title": "Lion king",
+//       "description":
+//         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//       "Genre": { "Name": "Adventure", "description": "Adventurous movie" },
+//       "director": {
+//         "name": "Director2",
+//         "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//         "born": "1945",
+//         "death": "",
+//       },
+//       "img": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Foriginalvintagemovieposters.com%2Fwp-content%2Fuploads%2F2018%2F06%2FStar-Wars-5672-768x1162.jpg&f=1&nofb=1&ipt=d191eb7a7592ede00a4efb69d08105b59832ac04e24f4d6e8eab7df59bc5537b&ipo=images",
+//       "feature" : "true"
+//     },
+//     {
+//       "title": "Stuart Little",
+//       "description":
+//         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//       "Genre": { "Name": "Adventure", "description": "Adventurous movie" },
+//       "director": {
+//         "name": "director2",
+//         "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//         "born": "1945",
+//         "death": "",
+//       },
+//       "img": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Foriginalvintagemovieposters.com%2Fwp-content%2Fuploads%2F2018%2F06%2FStar-Wars-5672-768x1162.jpg&f=1&nofb=1&ipt=d191eb7a7592ede00a4efb69d08105b59832ac04e24f4d6e8eab7df59bc5537b&ipo=images",
+//       "feature" : "true"
+//     },
+//     {
+//       "title": "film4",
+//       "description":
+//         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//       "Genre": { "Name": "Comedy", "description": "Funny film" },
+//       "director": {
+//         "name": "director3",
+//         "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//         "born": "1940",
+//         "death": "",
+//       },
+//       "img": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Foriginalvintagemovieposters.com%2Fwp-content%2Fuploads%2F2018%2F06%2FStar-Wars-5672-768x1162.jpg&f=1&nofb=1&ipt=d191eb7a7592ede00a4efb69d08105b59832ac04e24f4d6e8eab7df59bc5537b&ipo=images",
+//       "feature" : "true"
+//     },
+//     {
+//       "title": "film5",
+//       "description":
+//         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//       "Genre": { "Name": "Adventure", "description": "Adventurous stories" },
+//       "director": {
+//         "name": "director4",
+//         "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//         "born": "1950",
+//         "death": ""
+//       },
+//       "img": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Foriginalvintagemovieposters.com%2Fwp-content%2Fuploads%2F2018%2F06%2FStar-Wars-5672-768x1162.jpg&f=1&nofb=1&ipt=d191eb7a7592ede00a4efb69d08105b59832ac04e24f4d6e8eab7df59bc5537b&ipo=images",
+//       "feature" : "true"
+//     }
+    
+//     ];
+
+ 
+
+    // let genre = [
+    //     { id: 1, name: "Comedy", description: "Funny Film" },
+    //     { id: 2, name: "Thriller", description: "Scary film"}
+    //   ];
+
       app.listen(8080, () => {
         console.log('Your app is listening on port 8080');
       });
 
+
+
+
+      // {
+      //   title: "starwars",
+      //   description: 
+      //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      //   Genre: { Name: "drama", description: "genre description here" },
+      //   director: {
+      //     name: "director1",
+      //     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      //     born: 1940,
+      //     death: "",
+      //   },
+      //   img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Foriginalvintagemovieposters.com%2Fwp-content%2Fuploads%2F2018%2F06%2FStar-Wars-5672-768x1162.jpg&f=1&nofb=1&ipt=d191eb7a7592ede00a4efb69d08105b59832ac04e24f4d6e8eab7df59bc5537b&ipo=images",
+      //   feature: true,
+      // },

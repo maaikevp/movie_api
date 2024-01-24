@@ -12,6 +12,84 @@
 
 
 <table>
+    <div class="exit"></div>
+    <tr>
+        <td>return </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>movie list </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Request</td>
+        <td>URL</td>
+        <td>HTTP method</td>
+        <td>request</td>
+        <td>return </td>
+    </tr>
+    <tr>
+        <td>Return a list of ALL movies to the user;</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>movie list </td>
+    </tr>
+    <tr>
+        <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user;</td>
+        <td>/movies/[moviename]</td>
+        <td>GET</td>
+        <td>movietitle</td>
+        <td>JSON object holding data about the movie that was added, including an ID: </td>
+    </tr>
+    <tr>
+        <td>Return data about a genre (description) by name/title (e.g., “Thriller”);</td>
+        <td>/movies/[genre]</td>
+        <td>GET</td>
+        <td>genre name</td>
+        <td>genre description </td>
+    </tr>
+    <tr>
+        <td>Return data about a director (bio, birth year, death year) by name;</td>
+        <td>/movies/[director]/[bio, birth and death year]</td>
+        <td>GET</td>
+        <td>director</td>
+        <td>A JSON object holding data about the director that was added, including an ID: </td>
+    </tr>
+    <tr>
+        <td>Allow new users to register;</td>
+        <td>/users</td>
+        <td>POST</td>
+        <td>username</td>
+        <td>success message (success, your new account has been made) </td>
+    </tr>
+    <tr>
+        <td>Allow users to update their user info (username);</td>
+        <td>/users/[username]</td>
+        <td>PUT</td>
+        <td>new username</td>
+        <td>success message (success, your username has been changed) </td>
+    </tr>
+    <tr>
+        <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later);</td>
+        <td>/users/[moviename]</td>
+        <td>POST</td>
+        <td>movietitle</td>
+        <td>success message (successs, movie X has been added to your favorites) </td>
+    </tr>
+</table>
+
+
+
+
+
+<!-- <table>
   <div class="exit"></div>
   <tr>
       <td>Request</td>
@@ -75,3 +153,70 @@
 </body>
 
 </html>
+
+
+<table>
+    <tr>
+        <td>Request</td>
+        <td>URL</td>
+        <td>HTTP method</td>
+        <td>request </td>
+    </tr>
+    <tr>
+        <td>Return a list of ALL movies to the user;</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td>none </td>
+    </tr>
+    <tr>
+        <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user;</td>
+        <td>/movies/[moviename]</td>
+        <td>GET</td>
+        <td>movietitle </td>
+    </tr>
+    <tr>
+        <td>Return data about a genre (description) by name/title (e.g., “Thriller”);</td>
+        <td>/movies/[genre]</td>
+        <td>GET</td>
+        <td>genre name </td>
+    </tr>
+    <tr>
+        <td>Return data about a director (bio, birth year, death year) by name;</td>
+        <td>/movies/[director]/[bio, birth and death year]</td>
+        <td>GET</td>
+        <td>director </td>
+    </tr>
+    <tr>
+        <td>Allow new users to register;</td>
+        <td>/users</td>
+        <td>POST</td>
+        <td>username </td>
+    </tr>
+    <tr>
+        <td>Allow users to update their user info (username);</td>
+        <td>/users/[username]</td>
+        <td>PUT</td>
+        <td>new username </td>
+    </tr>
+    <tr>
+        <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later);</td>
+        <td>/users/[moviename]</td>
+        <td>POST</td>
+        <td>movietitle </td>
+    </tr>
+    <tr>
+        <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed—more on this later);</td>
+        <td>/users/[favourites]</td>
+        <td>DELETE</td>
+        <td>movietitle </td>
+    </tr>
+    <tr>
+        <td>Allow existing users to deregister (showing only a text that a user email has been removed—more on this later).</td>
+        <td>/users</td>
+        <td>DELETE</td>
+        <td>none </td>
+    </tr>
+
+
+    
+</table> -->
