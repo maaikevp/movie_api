@@ -10,6 +10,7 @@
 <h1>Documentation doc</h1>
 <p>This movie app and api is built using Node.</p>
 
+<!-- The font still needs to be changed  -->
 
 <table>
     <div class="exit"></div>
@@ -46,7 +47,29 @@
         <td>/movies/[moviename]</td>
         <td>GET</td>
         <td>movietitle</td>
-        <td>JSON object holding data about the movie that was added, including an ID: </td>
+        <td>JSON object holding data about the movie that was added, including an ID:
+        <code>  
+            {  
+            Title : "The Godfather",
+            Description: "The patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
+            Genre: 
+              {
+                Name :"Crime",
+                Description: "Movies in this genre explore criminal activities, their consequences, and the moral dilemmas faced by the characters.",
+              },       
+        
+            Director:
+              {
+                Name: "Francis Ford Coppola",
+                bio : "Francis Ford Coppola is an American film director, producer, and screenwriter. He is best known for directing the critically acclaimed 'The Godfather trilogy' and the Vietnam War epic Apocalypse Now. Coppola has won multiple Academy Awards during his career and is considered one of the most influential filmmakers in the history of cinema.",
+                DOB : "April 7, 1939",        
+              },
+        
+            imageURL: "https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/?ref_=tt_ov_i",
+            Featured: false, 
+            }
+        </code>    
+        </td>
     </tr>
     <tr>
         <td>Return data about a genre (description) by name/title (e.g., “Thriller”);</td>
@@ -60,33 +83,87 @@
         <td>/movies/[director]/[bio, birth and death year]</td>
         <td>GET</td>
         <td>director</td>
-        <td>A JSON object holding data about the director that was added, including an ID: </td>
+        <td>A JSON object holding data about the director that was added, including an ID:
+            <code>{
+                Name: "Francis Ford Coppola",
+                bio : "Francis Ford Coppola is an American film director, producer, and screenwriter. He is best known for directing the critically acclaimed 'The Godfather trilogy' and the Vietnam War epic Apocalypse Now. Coppola has won multiple Academy Awards during his career and is considered one of the most influential filmmakers in the history of cinema.",
+                DOB : "April 7, 1939",
+                Deathyear: "-"
+            }
+         </code> 
+         </td>
     </tr>
     <tr>
         <td>Allow new users to register;</td>
         <td>/users</td>
         <td>POST</td>
-        <td>username</td>
-        <td>success message (success, your new account has been made) </td>
+        <td>"A JSON object holding new user data:
+            <code>
+            {
+            "Username": "Dave Smith",
+            "Password": "davesmith345",
+            "Email": "davesmith5@hotmail.com",
+            "Birthdate": "1969-10-19"
+            }
+            </code>
+            </td>
+        <td>"A JSON object holding new user data:
+            <code>
+            {
+            "Username": "Dave Smith",
+            "Password": "davesmith345",
+            "Email": "davesmith5@hotmail.com",
+            "Birthdate": "1969-10-19"
+            }
+            </code>
+        </td>
     </tr>
     <tr>
         <td>Allow users to update their user info (username);</td>
         <td>/users/[username]</td>
         <td>PUT</td>
-        <td>new username</td>
-        <td>success message (success, your username has been changed) </td>
+        <td>A JSON object holding with changed user info
+            <code>
+            {
+            "Username": "Dave Smith",
+            "Password": "dave678",
+            "Email": "davesmith5@hotmail.com",
+            "Birthdate": "1969-10-19"
+            }
+            </code>
+        </td>
+        <td>A JSON object holding with changed user info
+            <code>
+            {
+            "Username": "Dave Smith",
+            "Password": "dave678",
+            "Email": "davesmith5@hotmail.com",
+            "Birthdate": "1969-10-19"
+            }
+            </code>
+         </td>
     </tr>
     <tr>
-        <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later);</td>
-        <td>/users/[moviename]</td>
+        <td>Allow users to add a movie to their list of favorites</td>
+        <td>/users/[username]/movies/[moviename]        </td>
         <td>POST</td>
-        <td>movietitle</td>
+        <td>movie ID</td>
         <td>success message (successs, movie X has been added to your favorites) </td>
+    </tr>
+    <tr>
+        <td>Allow users to delete a movie from their list of favorites </td>
+        <td>/users/[username]/movies/[moviename]        </td>
+        <td>DELETE</td>
+        <td>movie ID</td>
+        <td>success message (successs, movie X has been removed from your favorites)
+            ) </td>
     </tr>
 </table>
 
 
+</body>
 
+</html>
 
 
 <!-- <table>
@@ -150,9 +227,7 @@
 </table>
 
 
-</body>
 
-</html>
 
 
 <table>
