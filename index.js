@@ -3,7 +3,6 @@ const express = require('express'),
   uuid = require('uuid');
 
 
-
 const http = require('http');
 const https = require('https');
 
@@ -28,11 +27,27 @@ let PORT = process.env.PORT || 8080;
 
 
 
+// After running: npm install passport passport-local passport-jwt jsonwebtoken
+
+// npm install passport --save
+// npm install passport-local --save
+// npm install passport-jwt --save
+// npm install jsonwebtoken --save
+
+const passport = require('passport');
+require('./passport');
+
+// Needs to be placed after body-parser
+let auth = require('./auth')(app);
+
+
+
 // usenewurlparser is deprecated
  // mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true });
 
 //  const connectDB = ()=>{
   // mongoose.connect("mongodb://127.0.0.1:27017/test")
+  
   mongoose.connect("mongodb://localhost:27017/test")
   .then(()=>{
      console.log("DB connection successful.");
@@ -245,8 +260,8 @@ app.get('/', (req, res) => {
 
 // Gets the list of data about ALL films
 
-app.get('/movies', (req, res) => {
-	Movies.find()
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  await Movies.find()
 		.then((movies) => {
 			res.status(200).json(movies);
 		})
@@ -259,7 +274,7 @@ app.get('/movies', (req, res) => {
 
 // GET DETAILS SPECIFIC MOVIE
 
-app.get('/movies/:Title', async (req, res) => {
+app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.find({ 'Title': req.params.Title })
     .then((movie) => {
       if (!movie) {
@@ -277,7 +292,7 @@ app.get('/movies/:Title', async (req, res) => {
 
 // GET DETAILS GENRE
     
-app.get('/movies/genre/:Name', async (req, res) => {
+app.get('/movies/genre/:Name', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.findOne({ 'Genre.Name': req.params.Name })
   .then((movie) => {
     if (!movie) {
@@ -296,7 +311,7 @@ app.get('/movies/genre/:Name', async (req, res) => {
 
 // DIRECTOR
 
-app.get('/movies/director/:directorName', async (req, res) => {
+app.get('/movies/director/:directorName', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.findOne({ 'Director.Name': req.params.directorName })
     .then((movie) => {
       if (!movie) {
@@ -316,9 +331,11 @@ app.get('/movies/director/:directorName', async (req, res) => {
 
 // USERS
 
-// Get all users
+// Get all users - only for own checkups
+
 
 app.get('/users', async (req, res) => {
+// app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.find()
     .then((users) => {
       res.status(201).json(users);
@@ -373,31 +390,41 @@ app.post('/users', async (req, res) => {
 
 // UPDATE USER
 
-app.put('/users/:Username', async (req, res) => {
-  await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
-    {
-      Username: req.body.Username,
-      Password: req.body.Password,
-      Email: req.body.Email,
-      Birthday: req.body.Birthday
-    }
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  // CONDITION TO CHECK ADDED HERE
+  if(req.user.Username !== req.params.Username){
+      return res.status(400).send('Permission denied');
+  }
+  // CONDITION ENDS
+  await Users.findOneAndUpdate({ Username: req.params.Username }, {
+      $set:
+      {
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday
+      }
   },
-  { new: true }) // This line makes sure that the updated document is returned
-  .then((updatedUser) => {
-    res.json(updatedUser);
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  })
-
+      { new: true }) // This line makes sure that the updated document is returned
+      .then((updatedUser) => {
+          res.json(updatedUser);
+      })
+      .catch((err) => {
+          console.log(err);
+          res.status(500).send('Error: ' + err);
+      })
 });
 
 
 
  // ADD MOVIE TO FAVORITES
 
- app.post('/users/:Username/movies/:MovieID', async (req, res) => {
+ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {  
+  // CONDITION TO CHECK ADDED HERE
+  if(req.user.Username !== req.params.Username){
+      return res.status(400).send('Permission denied');
+  }
+  // CONDITION ENDS
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
      $push: { FavoriteMovies: req.params.MovieID }
    },
@@ -414,7 +441,13 @@ app.put('/users/:Username', async (req, res) => {
 
 // DELETE MOVIE FROM FAVORITES
 
-app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
+app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  
+  // CONDITION TO CHECK ADDED HERE
+  if(req.user.Username !== req.params.Username){
+      return res.status(400).send('Permission denied');
+  }
+  // CONDITION ENDS
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
      $pull: { FavoriteMovies: req.params.MovieID }
    },
@@ -432,7 +465,12 @@ app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
 
 // DELETE USER
 
-app.delete('/users/:Username', async (req, res) => {
+app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => { 
+  // CONDITION TO CHECK ADDED HERE
+  if(req.user.Username !== req.params.Username){
+      return res.status(400).send('Permission denied');
+  }
+  // CONDITION ENDS
   await Users.findOneAndDelete({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
@@ -457,3 +495,28 @@ app.listen(PORT, () => {
 });
 
 
+//  Test account
+//  {
+//   "user": {
+      // "_id": "65cf87dd72cbcdd2bcc0027c",
+      // "Username": "MTest",
+      // "Password": "test123",
+      // "Email": "mtest@greenmail.net",
+      // "FavoriteMovies": [],
+      // "__v": 0
+//   },
+//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWNmODdkZDcyY2JjZGQyYmNjMDAyN2MiLCJVc2VybmFtZSI6Ik1UZXN0IiwiUGFzc3dvcmQiOiJ0ZXN0MTIzIiwiRW1haWwiOiJtdGVzdEBncmVlbm1haWwubmV0IiwiRmF2b3JpdGVNb3ZpZXMiOltdLCJfX3YiOjAsImlhdCI6MTcwODEwMjAxOCwiZXhwIjoxNzA4NzA2ODE4LCJzdWIiOiJNVGVzdCJ9.7XsxB5Tv5aG21V039AQBDMVqNH1PkvoggCK60cYSPHE"
+// }
+
+
+// {
+//   "user": {
+//       "_id": "65cfcb6cb796b1774fe416db",
+//       "Username": "MTest",
+//       "Password": "test123",
+//       "Email": "mtest@greenmail.net",
+//       "FavoriteMovies": [],
+//       "__v": 0
+//   },
+//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWNmY2I2Y2I3OTZiMTc3NGZlNDE2ZGIiLCJVc2VybmFtZSI6Ik1UZXN0IiwiUGFzc3dvcmQiOiJ0ZXN0MTIzIiwiRW1haWwiOiJtdGVzdEBncmVlbm1haWwubmV0IiwiRmF2b3JpdGVNb3ZpZXMiOltdLCJfX3YiOjAsImlhdCI6MTcwODExNjk3MiwiZXhwIjoxNzA4NzIxNzcyLCJzdWIiOiJNVGVzdCJ9.29EEDsGujocB3-nSLJBHDsuV1512DJh06-jLZO6kQeA"
+// }
