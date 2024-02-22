@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const Models = require('./models.js');
 
 
-const app = express();  
+const app = express();
 
 const { check, validationResult } = require('express-validator');
 
@@ -27,6 +27,11 @@ const Directors = Models.Director;
 const Genres = Models.Genre;
 
 // let PORT = process.env.PORT || 8080;
+
+
+// Mongo atlas 
+// MyMovieFlix-admin
+// MyMovieFlix1234!!!
 
 
 
@@ -45,7 +50,6 @@ let auth = require('./auth')(app);
 
 
 
-
 const cors = require('cors');
 app.use(cors());
 
@@ -54,28 +58,40 @@ let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
 app.use(cors({
   origin: (origin, callback) => {
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
       let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-      return callback(new Error(message ), false);
+      return callback(new Error(message), false);
     }
     return callback(null, true);
   }
 }));
 
 // usenewurlparser is deprecated
- // mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true });
 
 //  const connectDB = ()=>{
-  // mongoose.connect("mongodb://127.0.0.1:27017/test")
+// mongoose.connect("mongodb://127.0.0.1:27017/test")
 
-  mongoose.connect("mongodb://localhost:27017/test")
-  .then(()=>{
-     console.log("DB connection successful.");
+// Offline use 
+
+// mongoose.connect("mongodb://localhost:27017/test")
+//   .then(() => {
+//     console.log("DB connection successful.");
+//   })
+//   .catch((err) => {
+//     console.log(`DB connection error:${err}`);
+//   });
+
+
+mongoose.connect("CONNECTION_URI")
+  .then(() => {
+    console.log("DB connection successful.");
   })
-  .catch((err)=>{
-     console.log(`DB connection error:${err}`);
+  .catch((err) => {
+    console.log(`DB connection error:${err}`);
   });
+
 // }
 
 
@@ -283,13 +299,13 @@ app.get('/', (req, res) => {
 
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.find()
-		.then((movies) => {
-			res.status(200).json(movies);
-		})
-		.catch((err) => {
-			console.error(err);
-			res.status(500).send('Error: ' + err);
-		});
+    .then((movies) => {
+      res.status(200).json(movies);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 
@@ -312,20 +328,20 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), asyn
 
 
 // GET DETAILS GENRE
-    
+
 app.get('/movies/genre/:Name', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.findOne({ 'Genre.Name': req.params.Name })
-  .then((movie) => {
-    if (!movie) {
-      res.status(400).send(req.params.Name + ' was not found');
-    } else {
-      res.status(200).json(movie.Genre.Description);
-    }
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  });
+    .then((movie) => {
+      if (!movie) {
+        res.status(400).send(req.params.Name + ' was not found');
+      } else {
+        res.status(200).json(movie.Genre.Description);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 
@@ -356,7 +372,7 @@ app.get('/movies/director/:directorName', passport.authenticate('jwt', { session
 
 
 app.get('/users', async (req, res) => {
-// app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  // app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.find()
     .then((users) => {
       res.status(201).json(users);
@@ -389,13 +405,13 @@ app.post('/users',
   //or use .isLength({min: 5}) which means
   //minimum value of 5 characters are only allowed
   [
-    check('Username', 'Username is required').isLength({min: 5}),
+    check('Username', 'Username is required').isLength({ min: 5 }),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
   ], async (req, res) => {
 
-  // check the validation object for errors
+    // check the validation object for errors
     let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -435,83 +451,83 @@ app.post('/users',
 
 app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
   // CONDITION TO CHECK ADDED HERE
-  if(req.user.Username !== req.params.Username){
-      return res.status(400).send('Permission denied');
+  if (req.user.Username !== req.params.Username) {
+    return res.status(400).send('Permission denied');
   }
   // CONDITION ENDS
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
-      $set:
-      {
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday
-      }
+    $set:
+    {
+      Username: req.body.Username,
+      Password: req.body.Password,
+      Email: req.body.Email,
+      Birthday: req.body.Birthday
+    }
   },
-      { new: true }) // This line makes sure that the updated document is returned
-      .then((updatedUser) => {
-          res.json(updatedUser);
-      })
-      .catch((err) => {
-          console.log(err);
-          res.status(500).send('Error: ' + err);
-      })
+    { new: true }) // This line makes sure that the updated document is returned
+    .then((updatedUser) => {
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send('Error: ' + err);
+    })
 });
 
 
 
- // ADD MOVIE TO FAVORITES
+// ADD MOVIE TO FAVORITES
 
- app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {  
+app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   // CONDITION TO CHECK ADDED HERE
-  if(req.user.Username !== req.params.Username){
-      return res.status(400).send('Permission denied');
+  if (req.user.Username !== req.params.Username) {
+    return res.status(400).send('Permission denied');
   }
   // CONDITION ENDS
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
-     $push: { FavoriteMovies: req.params.MovieID }
-   },
-   { new: true }) // This line makes sure that the updated document is returned
-  .then((updatedUser) => {
-    res.json(updatedUser);
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  });
+    $push: { FavoriteMovies: req.params.MovieID }
+  },
+    { new: true }) // This line makes sure that the updated document is returned
+    .then((updatedUser) => {
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 
 // DELETE MOVIE FROM FAVORITES
 
 app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  
+
   // CONDITION TO CHECK ADDED HERE
-  if(req.user.Username !== req.params.Username){
-      return res.status(400).send('Permission denied');
+  if (req.user.Username !== req.params.Username) {
+    return res.status(400).send('Permission denied');
   }
   // CONDITION ENDS
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
-     $pull: { FavoriteMovies: req.params.MovieID }
-   },
-   { new: true }) // This line makes sure that the updated document is returned
-  .then((updatedUser) => {
-    res.json(updatedUser);
- //   return res.status(201).send(`${movieTitle} has been removed from user ${id}'s array`);
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  });
+    $pull: { FavoriteMovies: req.params.MovieID }
+  },
+    { new: true }) // This line makes sure that the updated document is returned
+    .then((updatedUser) => {
+      res.json(updatedUser);
+      //   return res.status(201).send(`${movieTitle} has been removed from user ${id}'s array`);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 
 // DELETE USER
 
-app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => { 
+app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
   // CONDITION TO CHECK ADDED HERE
-  if(req.user.Username !== req.params.Username){
-      return res.status(400).send('Permission denied');
+  if (req.user.Username !== req.params.Username) {
+    return res.status(400).send('Permission denied');
   }
   // CONDITION ENDS
   await Users.findOneAndDelete({ Username: req.params.Username })
@@ -540,20 +556,20 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 
 
 const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0',() => {
- console.log('Listening on Port ' + port);
+app.listen(port, '0.0.0.0', () => {
+  console.log('Listening on Port ' + port);
 });
 
 
 //  Test account
 //  {
 //   "user": {
-      // "_id": "65cf87dd72cbcdd2bcc0027c",
-      // "Username": "MTest",
-      // "Password": "test123",
-      // "Email": "mtest@greenmail.net",
-      // "FavoriteMovies": [],
-      // "__v": 0
+// "_id": "65cf87dd72cbcdd2bcc0027c",
+// "Username": "MTest",
+// "Password": "test123",
+// "Email": "mtest@greenmail.net",
+// "FavoriteMovies": [],
+// "__v": 0
 //   },
 //   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWNmODdkZDcyY2JjZGQyYmNjMDAyN2MiLCJVc2VybmFtZSI6Ik1UZXN0IiwiUGFzc3dvcmQiOiJ0ZXN0MTIzIiwiRW1haWwiOiJtdGVzdEBncmVlbm1haWwubmV0IiwiRmF2b3JpdGVNb3ZpZXMiOltdLCJfX3YiOjAsImlhdCI6MTcwODEwMjAxOCwiZXhwIjoxNzA4NzA2ODE4LCJzdWIiOiJNVGVzdCJ9.7XsxB5Tv5aG21V039AQBDMVqNH1PkvoggCK60cYSPHE"
 // }
@@ -570,3 +586,5 @@ app.listen(port, '0.0.0.0',() => {
 //   },
 //   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWNmY2I2Y2I3OTZiMTc3NGZlNDE2ZGIiLCJVc2VybmFtZSI6Ik1UZXN0IiwiUGFzc3dvcmQiOiJ0ZXN0MTIzIiwiRW1haWwiOiJtdGVzdEBncmVlbm1haWwubmV0IiwiRmF2b3JpdGVNb3ZpZXMiOltdLCJfX3YiOjAsImlhdCI6MTcwODExNjk3MiwiZXhwIjoxNzA4NzIxNzcyLCJzdWIiOiJNVGVzdCJ9.29EEDsGujocB3-nSLJBHDsuV1512DJh06-jLZO6kQeA"
 // }
+
+// https://limitless-plateau-58155-241ffd79b506.herokuapp.com/ | https://git.heroku.com/limitless-plateau-58155.git
