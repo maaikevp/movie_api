@@ -84,7 +84,7 @@ app.use(cors({
 //   });
 
 
-mongoose.connect("CONNECTION_URI")
+mongoose.connect('CONNECTION_URI')
   .then(() => {
     console.log("DB connection successful.");
   })
