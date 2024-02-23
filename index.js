@@ -11,6 +11,9 @@ const mongoose = require('mongoose');
 const Models = require('./models.js');
 
 
+const process = require('process');
+require('dotenv').config();
+
 const app = express();
 
 const { check, validationResult } = require('express-validator');
@@ -88,7 +91,10 @@ app.use(cors({
 //   });
 
 
-mongoose.connect(process.env.CONNECTION_URI)
+
+// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true })
+
+mongoose.connect(process.env.CONNECTION_URI || 'mongodb://localhost:27017/test')
   .then(() => {
     console.log("DB connection successful.");
   })
@@ -100,12 +106,6 @@ mongoose.connect(process.env.CONNECTION_URI)
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
 // });
-
-// require('dotenv').config();
-
-const process = require('process');
-
-// mongoose.connect('mongodb+srv://MyMovieFlix-admin:MyMovieFlix1234%21%21%21@atlascluster.mzs2bcp.mongodb.net/MyMoviesFlix?retryWrites=true&w=majority&appName=AtlasCluster');
 
 // mongoose.connect(process.env.CONNECTION_URI);
 
@@ -122,6 +122,8 @@ app.use(morgan("common"));
 
 //  Running nodemon - change .js file name in package.json under "scripts> dev nodemon"  to the the file you're going to run
 //  npm run dev 
+
+
 
 
 
