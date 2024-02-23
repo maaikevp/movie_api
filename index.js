@@ -84,7 +84,9 @@ app.use(cors({
 //   });
 
 
-mongoose.connect(CONNECTION_URI)
+// format: without quotation marks or the old suggested connection line(process.env) no luck, single quotes and double quotes
+
+mongoose.connect('CONNECTION_URI')
   .then(() => {
     console.log("DB connection successful.");
   })
