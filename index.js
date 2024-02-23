@@ -84,16 +84,16 @@ app.use(cors({
 //   });
 
 
-// mongoose.connect('CONNECTION_URI')
-//   .then(() => {
-//     console.log("DB connection successful.");
-//   })
-//   .catch((err) => {
-//     console.log(`DB connection error:${err}`);
-//   });
+mongoose.connect(CONNECTION_URI)
+  .then(() => {
+    console.log("DB connection successful.");
+  })
+  .catch((err) => {
+    console.log(`DB connection error:${err}`);
+  });
 
-//connects to MongoDB Atlas database
-mongoose.connect(process.env.CONNECTION_URI);
+//connects to MongoDB Atlas database - didn't work at all
+// mongoose.connect(process.env.CONNECTION_URI);
 
 
 app.use(morgan("common"));
