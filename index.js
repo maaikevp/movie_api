@@ -28,13 +28,6 @@ const Genres = Models.Genre;
 
 // let PORT = process.env.PORT || 8080;
 
-
-// Mongo atlas 
-// MyMovieFlix-admin
-// MyMovieFlix1234!!!
-
-
-
 // After running: npm install passport passport-local passport-jwt jsonwebtoken
 
 // npm install passport --save
@@ -47,7 +40,6 @@ require('./passport');
 
 // Needs to be placed after body-parser
 let auth = require('./auth')(app);
-
 
 
 const cors = require('cors');
@@ -67,6 +59,7 @@ app.use(cors({
   }
 }));
 
+
 // usenewurlparser is deprecated
 // mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -84,15 +77,42 @@ app.use(cors({
 //   });
 
 
-// format: without quotation marks or the old suggested connection line(process.env) no luck, single quotes and double quotes
+// format: without quotation marks no luck, single quotes and double quotes seem ok
 
-mongoose.connect('CONNECTION_URI')
+// mongoose.connect('CONNECTION_URI')
+//   .then(() => {
+//     console.log("DB connection successful.");
+//   })
+//   .catch((err) => {
+//     console.log(`DB connection error:${err}`);
+//   });
+
+
+mongoose.connect(process.env.CONNECTION_URI)
   .then(() => {
     console.log("DB connection successful.");
   })
   .catch((err) => {
     console.log(`DB connection error:${err}`);
   });
+
+// mongoose.connect(process.env.CONNECTION_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+
+// require('dotenv').config();
+
+const process = require('process');
+
+// mongoose.connect('mongodb+srv://MyMovieFlix-admin:MyMovieFlix1234%21%21%21@atlascluster.mzs2bcp.mongodb.net/MyMoviesFlix?retryWrites=true&w=majority&appName=AtlasCluster');
+
+// mongoose.connect(process.env.CONNECTION_URI);
+
+// , { useNewUrlParser: true }
+
+
+// mongodb+srv://MyMovieFlix-admin:MyMovieFlix1234%21%21%21@atlascluster.mzs2bcp.mongodb.net/MyMoviesFlix?retryWrites=true&w=majority&appName=AtlasCluster
 
 //connects to MongoDB Atlas database - didn't work at all
 // mongoose.connect(process.env.CONNECTION_URI);
@@ -104,193 +124,6 @@ app.use(morgan("common"));
 //  npm run dev 
 
 
-// let movies = [
-
-//   {
-//     Title : "The Godfather",
-//     Description: "The patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-//     Genre: 
-//       {
-//         Name :"Crime",
-//         Description: "Movies in this genre explore criminal activities, their consequences, and the moral dilemmas faced by the characters.",
-//       },
-
-
-//     Director:
-//       {
-//         Name: "Francis Ford Coppola",
-//         bio : "Francis Ford Coppola is an American film director, producer, and screenwriter. He is best known for directing the critically acclaimed 'The Godfather trilogy' and the Vietnam War epic Apocalypse Now. Coppola has won multiple Academy Awards during his career and is considered one of the most influential filmmakers in the history of cinema.",
-//         DOB : "April 7, 1939",
-
-//       },
-
-//     Actor: [
-//         {
-//           name: "Marlon Brando",
-//           DOB: "April 3, 1924",
-//         },
-//         {
-//           name: "Al Pacino",
-//           DOB: "April 25, 1940" ,
-//         },
-//       ],
-//     Release_date: 1972,
-//     Rating: 9.2,
-//     imageURL: "https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/?ref_=tt_ov_i",
-//     Featured: false,
-//   },
-
-//   // {
-
-//   //   "Title" : "Inception",
-//   //   "Description": "A thief, who enters people's dreams to steal their secrets, is given a final job where he must implant an idea into someone's mind.",
-//   //   "Genre":
-//   //     {
-//   //       "Name" :"Science Fiction",
-//   //       "Description": "Sci-Fi films combine futuristic or scientific concepts with intense action sequences, often set in space, the future, or with advanced technology.",
-//   //     },
-
-
-//   //   "Director":
-//   //     {
-//   //       "Name": "Christopher Nolan",
-//   //       "bio" : "Christopher Nolan is a British-American film director, producer, and screenwriter known for his work on films such as 'Inception', 'The Dark Knight Trilogy', 'Interstellar, and Dunkirk. Nolan is known for his innovative storytelling and contributions to the science fiction and superhero genres.",
-//   //       "DOB" : "July 30, 1970",
-
-//   //     },
-
-//   //   "Actor": [
-//   //       {
-//   //         "name": " Leonardo DiCaprio",
-//   //         "DOB": "November 11, 1974" ,
-//   //       },
-//   //       {
-//   //         "name": " Joseph Gordon-Levitt",
-//   //         "DOB": "February 17, 1981",
-//   //       },
-//   //       {
-//   //         "name": "Ellen Page",
-//   //         "DOB": "February 21, 1987" ,
-//   //       },
-
-//   //     ],
-//   //   "Release_date": 2010 ,
-//   //   "Rating": 8.8,
-//   //   "imageURL": "https://www.imdb.com/title/tt1375666/mediaviewer/rm3426651392/?ref_=tt_ov_i",
-//   //   "Featured": true,
-//   //   },
-
-//   {
-
-
-//     Title : "The Shawshank Redemption",
-//     Description: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-//     Genre:
-//        {
-//       Name :"Drama",
-//       Description: "Drama films portray realistic and emotional stories focusing on the characters' personal development and life challenges.",
-//     },
-
-
-//     Director:
-//       {
-//         Name: "Frank Darabont",
-//         bio : "Frank Darabont is an American filmmaker, screenwriter, and director. He is renowned for his work in adapting Stephen King's stories into successful films, including 'The Shawshank Redemption' and 'The Green Mile.' Darabont is known for his skill in creating emotionally powerful and character-driven narratives.",
-//         DOB : "January 28, 1959",
-
-//       },
-
-//     Actor: [
-//         {
-//           name: "Tim Robbins",
-//           DOB: "October 16, 1958" ,
-//         },
-//         {
-//           name: "Morgan Freeman",
-//           DOB: "June 1, 1937",
-//         },
-//       ],
-//     Release_date: 1994 ,
-//     Rating: 9.3 ,
-//     imageURL: "https://www.imdb.com/title/tt0111161/mediaviewer/rm1690056449/?ref_=tt_ov_i",
-//     Featured: false,
-//     },
-
-//       {
-
-//     Title : "The Dark Knight",
-//     Description: "When the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-//     Genre:
-//       {
-//         Name :"Action",
-//         Description: "Action movies feature characters with extraordinary abilities who engage in thrilling action sequences, typically battling supervillains to save the world.",
-//       },
-
-//     Director:
-//       {
-//         Name: "Christopher Nolan",
-//         bio : "Christopher Nolan is a British-American film director, producer, and screenwriter known for his work on films such as 'Inception', 'The Dark Knight Trilogy', 'Interstellar, and Dunkirk. Nolan is known for his innovative storytelling and contributions to the science fiction and superhero genres.",
-//         DOB : "July 30, 1970",
-//       },
-
-//     Actor: [
-//         {
-//           name: "Christian Bale",
-//           DOB: "January 30, 1974",
-//         },
-//         {
-//           name: "Heath Ledger",
-//           DOB: "April 4, 1979",
-//           Death: "January 22, 2008"
-//         },
-//       ],
-//     Release_date: 2008 ,
-//     Rating: 9.0 ,
-//     imageURL: "https://www.imdb.com/title/tt0468569/mediaviewer/rm4023877632/?ref_=tt_ov_i/",
-//     Featured: true,
-//     },
-
-//     {   
-//     Title : "Forrest Gump",
-//     Description: "Through three decades of U.S. history, a man with a low IQ witnesses and unwittingly influences several defining historical events in the 20th century United States.",
-//     Genre:
-
-//       {
-//         Name :"Romance",
-//         Description: "Romance films incorporate song and dance numbers to tell romantic stories, where music and choreography play a significant role in the narrative",
-//       },
-
-//     Director:
-//       {
-//         Name: "Robert Zemeckis",
-//         bio : "Robert Zemeckis is an American filmmaker, screenwriter, and producer. He is famous for directing and co-writing the 'Back to the Future' trilogy, 'Forrest Gump,' 'Cast Away,' and 'Who Framed Roger Rabbit.' Zemeckis is known for his innovative use of visual effects and storytelling techniques in his films.",
-//         DOB : "May 14, 1951",
-
-//       },
-
-//     Actor: [
-//         {
-//           name: "Tom Hanks",
-//           DOB: "July 9, 1956" ,
-//         },
-//         {
-//           name: "Robin WrightT",
-//           DOB:  "April 8, 1966",
-//         },
-//       ],
-//     Release_date: 1994,
-//     Rating: 8.8,
-//     imageURL: "https://www.imdb.com/title/tt0109830/mediaviewer/rm1954748672/?ref_=tt_ov_i",
-//     Featured: false
-//     },
-
-// ];
-
-// let users = [
-//   { id: 1, name: "kim", favoriteMovies: ["Forrest Gump"] },
-//   { id: 2, name: "joe", favoriteMovies: [] },
-// ];
-
 
 // Welcome message
 
@@ -300,7 +133,7 @@ app.get('/', (req, res) => {
 
 // Gets the list of data about ALL films
 
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies', async (req, res) => {
   await Movies.find()
     .then((movies) => {
       res.status(200).json(movies);
@@ -311,6 +144,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
     });
 });
 
+// passport.authenticate('jwt', { session: false }),
 
 // GET DETAILS SPECIFIC MOVIE
 
@@ -591,3 +425,190 @@ app.listen(port, '0.0.0.0', () => {
 // }
 
 // https://limitless-plateau-58155-241ffd79b506.herokuapp.com/ | https://git.heroku.com/limitless-plateau-58155.git
+
+// let movies = [
+
+//   {
+//     Title : "The Godfather",
+//     Description: "The patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
+//     Genre:
+//       {
+//         Name :"Crime",
+//         Description: "Movies in this genre explore criminal activities, their consequences, and the moral dilemmas faced by the characters.",
+//       },
+
+
+//     Director:
+//       {
+//         Name: "Francis Ford Coppola",
+//         bio : "Francis Ford Coppola is an American film director, producer, and screenwriter. He is best known for directing the critically acclaimed 'The Godfather trilogy' and the Vietnam War epic Apocalypse Now. Coppola has won multiple Academy Awards during his career and is considered one of the most influential filmmakers in the history of cinema.",
+//         DOB : "April 7, 1939",
+
+//       },
+
+//     Actor: [
+//         {
+//           name: "Marlon Brando",
+//           DOB: "April 3, 1924",
+//         },
+//         {
+//           name: "Al Pacino",
+//           DOB: "April 25, 1940" ,
+//         },
+//       ],
+//     Release_date: 1972,
+//     Rating: 9.2,
+//     imageURL: "https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/?ref_=tt_ov_i",
+//     Featured: false,
+//   },
+
+//   // {
+
+//   //   "Title" : "Inception",
+//   //   "Description": "A thief, who enters people's dreams to steal their secrets, is given a final job where he must implant an idea into someone's mind.",
+//   //   "Genre":
+//   //     {
+//   //       "Name" :"Science Fiction",
+//   //       "Description": "Sci-Fi films combine futuristic or scientific concepts with intense action sequences, often set in space, the future, or with advanced technology.",
+//   //     },
+
+
+//   //   "Director":
+//   //     {
+//   //       "Name": "Christopher Nolan",
+//   //       "bio" : "Christopher Nolan is a British-American film director, producer, and screenwriter known for his work on films such as 'Inception', 'The Dark Knight Trilogy', 'Interstellar, and Dunkirk. Nolan is known for his innovative storytelling and contributions to the science fiction and superhero genres.",
+//   //       "DOB" : "July 30, 1970",
+
+//   //     },
+
+//   //   "Actor": [
+//   //       {
+//   //         "name": " Leonardo DiCaprio",
+//   //         "DOB": "November 11, 1974" ,
+//   //       },
+//   //       {
+//   //         "name": " Joseph Gordon-Levitt",
+//   //         "DOB": "February 17, 1981",
+//   //       },
+//   //       {
+//   //         "name": "Ellen Page",
+//   //         "DOB": "February 21, 1987" ,
+//   //       },
+
+//   //     ],
+//   //   "Release_date": 2010 ,
+//   //   "Rating": 8.8,
+//   //   "imageURL": "https://www.imdb.com/title/tt1375666/mediaviewer/rm3426651392/?ref_=tt_ov_i",
+//   //   "Featured": true,
+//   //   },
+
+//   {
+
+
+//     Title : "The Shawshank Redemption",
+//     Description: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+//     Genre:
+//        {
+//       Name :"Drama",
+//       Description: "Drama films portray realistic and emotional stories focusing on the characters' personal development and life challenges.",
+//     },
+
+
+//     Director:
+//       {
+//         Name: "Frank Darabont",
+//         bio : "Frank Darabont is an American filmmaker, screenwriter, and director. He is renowned for his work in adapting Stephen King's stories into successful films, including 'The Shawshank Redemption' and 'The Green Mile.' Darabont is known for his skill in creating emotionally powerful and character-driven narratives.",
+//         DOB : "January 28, 1959",
+
+//       },
+
+//     Actor: [
+//         {
+//           name: "Tim Robbins",
+//           DOB: "October 16, 1958" ,
+//         },
+//         {
+//           name: "Morgan Freeman",
+//           DOB: "June 1, 1937",
+//         },
+//       ],
+//     Release_date: 1994 ,
+//     Rating: 9.3 ,
+//     imageURL: "https://www.imdb.com/title/tt0111161/mediaviewer/rm1690056449/?ref_=tt_ov_i",
+//     Featured: false,
+//     },
+
+//       {
+
+//     Title : "The Dark Knight",
+//     Description: "When the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
+//     Genre:
+//       {
+//         Name :"Action",
+//         Description: "Action movies feature characters with extraordinary abilities who engage in thrilling action sequences, typically battling supervillains to save the world.",
+//       },
+
+//     Director:
+//       {
+//         Name: "Christopher Nolan",
+//         bio : "Christopher Nolan is a British-American film director, producer, and screenwriter known for his work on films such as 'Inception', 'The Dark Knight Trilogy', 'Interstellar, and Dunkirk. Nolan is known for his innovative storytelling and contributions to the science fiction and superhero genres.",
+//         DOB : "July 30, 1970",
+//       },
+
+//     Actor: [
+//         {
+//           name: "Christian Bale",
+//           DOB: "January 30, 1974",
+//         },
+//         {
+//           name: "Heath Ledger",
+//           DOB: "April 4, 1979",
+//           Death: "January 22, 2008"
+//         },
+//       ],
+//     Release_date: 2008 ,
+//     Rating: 9.0 ,
+//     imageURL: "https://www.imdb.com/title/tt0468569/mediaviewer/rm4023877632/?ref_=tt_ov_i/",
+//     Featured: true,
+//     },
+
+//     {
+//     Title : "Forrest Gump",
+//     Description: "Through three decades of U.S. history, a man with a low IQ witnesses and unwittingly influences several defining historical events in the 20th century United States.",
+//     Genre:
+
+//       {
+//         Name :"Romance",
+//         Description: "Romance films incorporate song and dance numbers to tell romantic stories, where music and choreography play a significant role in the narrative",
+//       },
+
+//     Director:
+//       {
+//         Name: "Robert Zemeckis",
+//         bio : "Robert Zemeckis is an American filmmaker, screenwriter, and producer. He is famous for directing and co-writing the 'Back to the Future' trilogy, 'Forrest Gump,' 'Cast Away,' and 'Who Framed Roger Rabbit.' Zemeckis is known for his innovative use of visual effects and storytelling techniques in his films.",
+//         DOB : "May 14, 1951",
+
+//       },
+
+//     Actor: [
+//         {
+//           name: "Tom Hanks",
+//           DOB: "July 9, 1956" ,
+//         },
+//         {
+//           name: "Robin WrightT",
+//           DOB:  "April 8, 1966",
+//         },
+//       ],
+//     Release_date: 1994,
+//     Rating: 8.8,
+//     imageURL: "https://www.imdb.com/title/tt0109830/mediaviewer/rm1954748672/?ref_=tt_ov_i",
+//     Featured: false
+//     },
+
+// ];
+
+// let users = [
+//   { id: 1, name: "kim", favoriteMovies: ["Forrest Gump"] },
+//   { id: 2, name: "joe", favoriteMovies: [] },
+// ];
