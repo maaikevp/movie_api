@@ -31,12 +31,6 @@ const Genres = Models.Genre;
 
 // let PORT = process.env.PORT || 8080;
 
-// After running: npm install passport passport-local passport-jwt jsonwebtoken
-
-// npm install passport --save
-// npm install passport-local --save
-// npm install passport-jwt --save
-// npm install jsonwebtoken --save
 
 const passport = require('passport');
 require('./passport');
@@ -63,38 +57,9 @@ app.use(cors({
 }));
 
 
-// usenewurlparser is deprecated
-// mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true });
+// CONNECTION 
 
-//  const connectDB = ()=>{
-// mongoose.connect("mongodb://127.0.0.1:27017/test")
-
-// Offline use 
-
-// mongoose.connect("mongodb://localhost:27017/test")
-//   .then(() => {
-//     console.log("DB connection successful.");
-//   })
-//   .catch((err) => {
-//     console.log(`DB connection error:${err}`);
-//   });
-
-
-// format: without quotation marks no luck, single quotes and double quotes seem ok
-
-// mongoose.connect('CONNECTION_URI')
-//   .then(() => {
-//     console.log("DB connection successful.");
-//   })
-//   .catch((err) => {
-//     console.log(`DB connection error:${err}`);
-//   });
-
-
-
-// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true })
-
-mongoose.connect(process.env.CONNECTION_URI || 'mongodb://localhost:27017/test')
+mongoose.connect(process.env.CONNECTION_URI)
   .then(() => {
     console.log("DB connection successful.");
   })
@@ -102,30 +67,13 @@ mongoose.connect(process.env.CONNECTION_URI || 'mongodb://localhost:27017/test')
     console.log(`DB connection error:${err}`);
   });
 
-// mongoose.connect(process.env.CONNECTION_URI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
-
-// mongoose.connect(process.env.CONNECTION_URI);
-
-// , { useNewUrlParser: true }
-
-
-// mongodb+srv://MyMovieFlix-admin:MyMovieFlix1234%21%21%21@atlascluster.mzs2bcp.mongodb.net/MyMoviesFlix?retryWrites=true&w=majority&appName=AtlasCluster
-
-//connects to MongoDB Atlas database - didn't work at all
-// mongoose.connect(process.env.CONNECTION_URI);
 
 
 app.use(morgan("common"));
 
+
 //  Running nodemon - change .js file name in package.json under "scripts> dev nodemon"  to the the file you're going to run
 //  npm run dev 
-
-
-
-
 
 // Welcome message
 
@@ -146,7 +94,7 @@ app.get('/movies', async (req, res) => {
     });
 });
 
-// passport.authenticate('jwt', { session: false }),
+// passport.authenticate('jwt', { session: false }),  
 
 // GET DETAILS SPECIFIC MOVIE
 
@@ -223,10 +171,7 @@ app.get('/users', async (req, res) => {
 });
 
 
-// CREATE USER
-
-
-// ADD A USER
+// CREATE USER    // ADD A USER
 
 /* We’ll expect JSON in this format
 {
@@ -285,7 +230,6 @@ app.post('/users',
   });
 
 
-
 // UPDATE USER
 
 app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -312,7 +256,6 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
       res.status(500).send('Error: ' + err);
     })
 });
-
 
 
 // ADD MOVIE TO FAVORITES
@@ -384,20 +327,59 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 });
 
 
+// PORT
 
-//  https://careerfoundry.wistia.com/medias/vrn5wiop9d
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+  console.log('Listening on Port ' + port);
+});
 
+
+
+// OTHER PORT DECLARATION
 
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);
 // });
 
 
+// INSTALLATIONS
 
-const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0', () => {
-  console.log('Listening on Port ' + port);
-});
+// npm install passport --save
+// npm install passport-local --save
+// npm install passport-jwt --save
+// npm install jsonwebtoken --save
+
+
+// After running: npm install passport passport-local passport-jwt jsonwebtoken
+
+// ES6
+// import 'dotenv/config'
+
+
+// CONNECTIONS
+
+// mongoose.connect(process.env.CONNECTION_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+
+
+// usenewurlparser is deprecated
+// mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true });
+
+// Offline use
+// mongoose.connect("mongodb://localhost:27017/test")
+//   .then(() => {
+//     console.log("DB connection successful.");
+//   })
+//   .catch((err) => {
+//     console.log(`DB connection error:${err}`);
+//   });
+
+
+// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true })
+// mongoose.connect(process.env.CONNECTION_URI || 'mongodb://localhost:27017/test')
 
 
 //  Test account
@@ -614,3 +596,5 @@ app.listen(port, '0.0.0.0', () => {
 //   { id: 1, name: "kim", favoriteMovies: ["Forrest Gump"] },
 //   { id: 2, name: "joe", favoriteMovies: [] },
 // ];
+
+
