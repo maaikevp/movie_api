@@ -39,6 +39,19 @@ require('./passport');
 let auth = require('./auth')(app);
 
 
+
+// CONNECTION 
+
+mongoose.connect(process.env.CONNECTION_URI)
+  .then(() => {
+    console.log("DB connection successful.");
+  })
+  .catch((err) => {
+    console.log(`DB connection error:${err}`);
+  });
+
+
+
 const cors = require('cors');
 app.use(cors());
 
@@ -55,17 +68,6 @@ app.use(cors({
     return callback(null, true);
   }
 }));
-
-
-// CONNECTION 
-
-mongoose.connect(process.env.CONNECTION_URI)
-  .then(() => {
-    console.log("DB connection successful.");
-  })
-  .catch((err) => {
-    console.log(`DB connection error:${err}`);
-  });
 
 
 
