@@ -81,7 +81,7 @@ app.use(morgan("common"));
 // Welcome message
 
 app.get('/', (req, res) => {
-  res.send("welcome to MyFlix app 2")
+  res.send("welcome to MyFlix app")
 })
 
 // Gets the list of data about ALL films
