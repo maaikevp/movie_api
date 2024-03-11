@@ -18,6 +18,7 @@ let generateJWTToken = (user) => {
 const express = require('express');
 const app = express();
 
+var cors = require('cors');
 
 /* POST login. */
 module.exports = (router) => {
