@@ -21,6 +21,7 @@ const app = express();
 
 /* POST login. */
 module.exports = (router) => {
+  router.options('/login', cors())
   router.post('/login', cors(), (req, res) => {
     passport.authenticate('local', { session: false }, (error, user, info) => {
       if (error || !user) {
