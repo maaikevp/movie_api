@@ -88,7 +88,7 @@ app.get('/', (req, res) => {
 
 // Gets the list of data about ALL films
 
-app.get('/movies', async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.find()
     .then((movies) => {
       res.status(200).json(movies);
@@ -99,7 +99,7 @@ app.get('/movies', async (req, res) => {
     });
 });
 
-// passport.authenticate('jwt', { session: false }),  
+//  
 
 // GET DETAILS SPECIFIC MOVIE
 
