@@ -274,6 +274,25 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
   });
 
 
+// GET DETAILS SPECIFIC USER
+
+app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  await Users.find({ 'Username': req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.users + ' was not found');
+      } else {
+        res.status(200).json(user);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
+
+
 // ADD MOVIE TO FAVORITES
 
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
