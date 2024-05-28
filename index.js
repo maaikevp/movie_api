@@ -36,8 +36,9 @@ const passport = require('passport');
 require('./passport');
 
 // Needs to be placed after body-parser
-let auth = require('./auth')(app);
+// let auth = require('./auth')(app); // first bit removed after reading forum answer
 
+require('./auth')(app);
 
 //  Running nodemon - change .js file name in package.json under "scripts> dev nodemon"  to the the file you're going to run
 //  npm run dev 
