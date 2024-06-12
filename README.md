@@ -1,11 +1,30 @@
 # movie_api
 
-
-## Backend for MyFlix movie-api
+## Overview
 
 The MyFlix REST API (API = Application Programming Interface) is the server-side component of the Movie API web application. 
 
 The API provides users of the movi-app with the possibility to: create/delete an account, log in/out, add/remove movies from your favorites list, view detailed movie data (e.g movie summary, genre, director) and view profile data (including personal list of favorite movies) 
+
+The front-end variations of the app can be found in my other repositories (MyFlix clients).
+
+
+## How to use
+
+Clone the Repository
+git clone https://github.com/maaikevp/movie_api.git
+
+Navigate to your Project Directory:
+cd movie_api
+
+Install Dependencies:
+npm install
+
+This command will read the `package.json`file and install all the necessary dependencies in the `node_modules` directory.
+
+Run the application
+npm start
+This command will start the Node.js server on port 8080.
 
 
 ## Systems and programs used:
