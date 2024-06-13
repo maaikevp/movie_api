@@ -4,9 +4,9 @@
 
 The MyFlix REST API (API = Application Programming Interface) is the server-side component of the Movie API web application. 
 
-The API provides users of the movi-app with the possibility to: create/delete an account, log in/out, add/remove movies from your favorites list, view detailed movie data (e.g movie summary, genre, director) and view profile data (including personal list of favorite movies) 
+The API provides users of the movie-app with the possibility to: create/delete an account, log in/out, add/remove movies from your favorites list, view detailed movie data (e.g movie summary, genre, director) and view profile data (including personal list of favorite movies). 
 
-The front-end variations of the app can be found in my other repositories (MyFlix clients).
+The front-end parts of the app can be found in the other repositories (MyFlix clients).
 
 
 ## How to use
@@ -20,10 +20,11 @@ cd movie_api
 Install Dependencies:
 npm install
 
-This command will read the `package.json`file and install all the necessary dependencies in the `node_modules` directory.
+This command will read the `package.json` file and install all the necessary dependencies in the `node_modules` directory.
 
-Run the application
-npm start
+Run the application:
+npm run dev (with nodemon installed)
+
 This command will start the Node.js server on port 8080.
 
 
@@ -41,12 +42,12 @@ This command will start the Node.js server on port 8080.
 * lodash: makes JS easier by taking the hassle out of working with arrays, numbers, objects, strings, etc.
 
 
-versions:
+Versions:
 express: 4.18.2, mongoose: 8.1.1, morgan: 1.10.0, passport: 0.7.0, passport-jwt: 4.0.1, nodemon: 3.0.2,  lodash: 4.17.21, 
 
 
 ## External providers
 
 * Render: API is hosted on Render
-* Atlas Mongo DB: hosting the Database
-* Postman: user to test the endpoints of the requests
+* Atlas Mongo DB: hosting the database
+* Postman: used to test the endpoints of the requests
